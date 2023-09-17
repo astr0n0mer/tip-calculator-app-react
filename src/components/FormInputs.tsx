@@ -1,9 +1,10 @@
 import {
+  ChangeEvent,
   Dispatch,
   FC,
-  KeyboardEvent,
   SetStateAction,
   useCallback,
+  useEffect,
   useId,
   useState,
 } from "react";
@@ -40,20 +41,15 @@ const FormInputs: FC<FormInputsProps> = ({
     () => initialInputAndError
   );
 
-  console.debug({ presetTip, custonTip: customTip.value });
-
   const setInputAndError = useCallback(
     (
-      event: KeyboardEvent,
+      event: ChangeEvent<HTMLInputElement>,
       setInputAndError: Dispatch<SetStateAction<InputAndError>>,
       min: number
     ) => {
       const target = event.target as HTMLInputElement;
       const value = target.value;
       const numericValue = target.valueAsNumber;
-
-      console.debug(event);
-      console.debug({ value, numericValue });
 
       let error = "";
       if (Number.isNaN(numericValue)) error = "Invalid number";
@@ -66,8 +62,6 @@ const FormInputs: FC<FormInputsProps> = ({
   );
 
   const setValuesPerPerson = useCallback(() => {
-    console.debug(bill.value, customTip.value, numberOfPeople.value);
-
     if (!bill.value || !customTip.value || !numberOfPeople.value) {
       return;
     }
@@ -92,6 +86,8 @@ const FormInputs: FC<FormInputsProps> = ({
     setTotalPerPerson,
   ]);
 
+  useEffect(setValuesPerPerson, [setValuesPerPerson]);
+
   const billId = useId();
   const tipId = useId();
   const numberOfPeopleId = useId();
@@ -109,10 +105,9 @@ const FormInputs: FC<FormInputsProps> = ({
           step="0.01"
           placeholder="0"
           value={bill.value}
-          onKeyUp={(event: KeyboardEvent) => {
-            setInputAndError(event, setBill, 0);
-            setValuesPerPerson();
-          }}
+          onInput={(event: ChangeEvent<HTMLInputElement>) =>
+            setInputAndError(event, setBill, 0)
+          }
         />
       </FormInput>
 
@@ -138,10 +133,9 @@ const FormInputs: FC<FormInputsProps> = ({
             step="1"
             placeholder="Custom"
             value={customTip.value}
-            onKeyUp={(event: KeyboardEvent) => {
-              setInputAndError(event, setCustomTip, 0);
-              setValuesPerPerson();
-            }}
+            onInput={(event: ChangeEvent<HTMLInputElement>) =>
+              setInputAndError(event, setCustomTip, 0)
+            }
             onFocus={() => setPresetTip(() => 0)}
           />
         </div>
@@ -162,10 +156,9 @@ const FormInputs: FC<FormInputsProps> = ({
           step="1"
           placeholder="0"
           value={numberOfPeople.value}
-          onKeyUp={(event: KeyboardEvent) => {
-            setInputAndError(event, setNumberOfPeople, 1);
-            setValuesPerPerson();
-          }}
+          onInput={(event: ChangeEvent<HTMLInputElement>) =>
+            setInputAndError(event, setNumberOfPeople, 1)
+          }
         />
       </FormInput>
     </fieldset>
