@@ -1,12 +1,20 @@
-import { FC, useId } from "react";
+import { FC, MouseEventHandler, useId } from "react";
 
 type RadioButtonProps = {
   name: string;
   label: string;
   value: string | number | readonly string[] | undefined;
+  checked: boolean;
+  onClick: MouseEventHandler<HTMLInputElement>;
 };
 
-const RadioButton: FC<RadioButtonProps> = ({ name, label, value }) => {
+const RadioButton: FC<RadioButtonProps> = ({
+  name,
+  label,
+  value,
+  checked,
+  onClick,
+}) => {
   const id = useId();
 
   return (
@@ -16,7 +24,9 @@ const RadioButton: FC<RadioButtonProps> = ({ name, label, value }) => {
         name={name}
         id={id}
         value={value}
+        checked={checked}
         className="field__input--hidden"
+        onClick={onClick}
       />
       <label htmlFor={id} className="field__button">
         {label}

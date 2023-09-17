@@ -14,11 +14,12 @@ const FormInput: FC<FormInputProps> = ({ label, error, htmlFor, children }) => {
         {label}
       </label>
 
-      {error ? (
-        <label htmlFor={htmlFor} className="field__error">
-          {error}
-        </label>
-      ) : null}
+      <label
+        htmlFor={htmlFor}
+        className={`field__error ${error ? "js-error--active" : ""}`}
+      >
+        {error}
+      </label>
 
       {children}
     </div>
