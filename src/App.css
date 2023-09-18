@@ -135,11 +135,11 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .input--bill {
-  background-image: url("./images/icon-dollar.svg");
+  background-image: url("/src/assets/icon-dollar.svg");
 }
 
 .input--number-of-people {
-  background-image: url("./images/icon-person.svg");
+  background-image: url("/src/assets/icon-person.svg");
 }
 
 .button-grid {
