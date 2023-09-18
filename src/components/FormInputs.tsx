@@ -65,6 +65,9 @@ const FormInputs: FC<FormInputsProps> = ({
     if (!bill.value || !customTip.value || !numberOfPeople.value) {
       return;
     }
+    if (bill.error || customTip.error || numberOfPeople.error) {
+      return;
+    }
 
     const billValue = Number(bill.value);
     const tipPercentage = presetTip || Number(customTip.value);
@@ -104,7 +107,6 @@ const FormInputs: FC<FormInputsProps> = ({
           min="0.01"
           step="0.01"
           placeholder="0"
-          value={bill.value}
           onInput={(event: ChangeEvent<HTMLInputElement>) =>
             setInputAndError(event, setBill, 0)
           }
@@ -132,7 +134,6 @@ const FormInputs: FC<FormInputsProps> = ({
             min="0"
             step="1"
             placeholder="Custom"
-            value={customTip.value}
             onInput={(event: ChangeEvent<HTMLInputElement>) =>
               setInputAndError(event, setCustomTip, 0)
             }
@@ -155,7 +156,6 @@ const FormInputs: FC<FormInputsProps> = ({
           min="1"
           step="1"
           placeholder="0"
-          value={numberOfPeople.value}
           onInput={(event: ChangeEvent<HTMLInputElement>) =>
             setInputAndError(event, setNumberOfPeople, 1)
           }
